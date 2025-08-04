@@ -8,45 +8,39 @@ import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 // Include the included Inter font
 import "@blocknote/core/fonts/inter.css";
-import { Block } from "@blocknote/core";
+import { Block, PartialBlock } from "@blocknote/core";
 import { uploadFiles } from "@/utils/uploadthing";
 
-export default function MyEditor() {
+interface EditorProps {
+	initialContent: string;
+	onChange: ({
+		content,
+		title,
+	}: {
+		content: undefined | string;
+		title: string | undefined;
+	}) => void;
+}
+export default function MyEditor({ initialContent, onChange }: EditorProps) {
 	const [blocks, setBlocks] = useState<Block[]>([]);
 
 	// Creates a new editor instance.
 	const editor = useCreateBlockNote({
+		initialContent: initialContent
+			? (JSON.parse(initialContent) as PartialBlock[])
+			: undefined,
 		uploadFile: async (file: File) => {
 			const [res] = await uploadFiles("imageUploader", { files: [file] });
 			return res.ufsUrl;
 		},
-		initialContent: [
-			{
-				type: "paragraph",
-				content: "Welcome to this demo!",
-			},
-			{
-				type: "heading",
-				content: "This is a heading block",
-			},
-			{
-				type: "paragraph",
-				content: "This is a paragraph block",
-			},
-			{
-				type: "paragraph",
-			},
-		],
 	});
-	console.log(JSON.stringify(blocks, null, 2));
-	// Renders the editor instance and its document JSON.
+	const handleOnChange = () => {
+		onChange({ content: JSON.stringify(editor.document), title: undefined });
+	};
 	return (
 		<BlockNoteView
 			editor={editor}
-			autoFocus
-			onChange={() => {
-				setBlocks(editor.document);
-			}}
+			onChange={handleOnChange}
 			theme={{
 				colors: {
 					editor: {

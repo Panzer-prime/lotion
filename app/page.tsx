@@ -4,12 +4,18 @@ import Cover from "@/components/Cover";
 import { Editor } from "@/components/index";
 import { useEffect, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import { Button } from "@/components/MenuButton";
 import { ClientUploadedFileData } from "uploadthing/types";
 import { setCookie, getCookie } from "@/utils/utils";
+import { Button } from "@/components/MenuButton";
+import { useMutation } from "convex/react";
+import { api } from "../convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+
 export default function Home() {
 	const [imageUrl, setImageUrl] = useState<string>();
 	const [emoji, setEmoji] = useState<string>("s");
+
+	const update = useMutation(api.documents.update);
 
 	useEffect(() => {
 		const cookie = getCookie("imageUrl");
@@ -34,6 +40,26 @@ export default function Home() {
 
 		setImageUrl(res.ufsUrl);
 		setCookie("imageUrl", res.ufsUrl, 12);
+	};
+
+	const onTitleChange = (value: string) => {
+		update({
+			id: "jh7ccnnmxxt2e30p73efxbaa917n0kjx" as Id<"documents">,
+			title: value,
+		});
+	};
+	const onChange = ({
+		content,
+		title,
+	}: {
+		content: string | undefined;
+		title: string | undefined;
+	}) => {
+		update({
+			id: "jh7ccnnmxxt2e30p73efxbaa917n0kjx" as Id<"documents">,
+			content: content,
+			title: title,
+		});
 	};
 	return (
 		<div className="">
@@ -63,10 +89,13 @@ export default function Home() {
 					<TextareaAutosize
 						placeholder="Untitled"
 						className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
+						onChange={(event) =>
+							onChange({ content: undefined, title: event.currentTarget.value })
+						}
 					/>
 				</div>
 
-				<Editor />
+				<Editor onChange={onChange} initialContent="" />
 			</div>
 		</div>
 	);
