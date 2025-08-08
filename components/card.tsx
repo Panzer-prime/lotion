@@ -14,11 +14,11 @@ import { Button } from "./ui/button";
 export function NoteCard({
 	imageUrl,
 	title,
-	href,
+	id,
 }: {
 	imageUrl: string;
-	href: string;
 	title: string;
+	id: string;
 }) {
 	return (
 		<Card className="w-full max-w-sm bg-[#252525] pt-0 text-[#d6d7d7]">
@@ -33,15 +33,12 @@ export function NoteCard({
 			</CardHeader>
 			<CardContent className="relative pt-4">
 				<CardTitle className="absolute -top-10 text-xl font-semibold">
-					some tittle
+					{title}
 				</CardTitle>
 			</CardContent>
 			<CardFooter>
-				<Button
-					asChild
-					className="bg-zinc-800 hover:bg-zinc-900"
-				>
-					<Link href={`/`}>Open Note</Link>
+				<Button asChild className="bg-zinc-800 hover:bg-zinc-900">
+					<Link href={`/main/${id}`}>Open Note</Link>
 				</Button>
 			</CardFooter>
 		</Card>

@@ -14,6 +14,9 @@ export default function Home() {
 	useEffect(() => {
 		getImage();
 	}, []);
+
+	const something = [1, 2, 3, 4];
+
 	return (
 		<div className="relative mx-auto flex flex-col pt-12 lg:max-w-4xl">
 			<div className="mb-13">
@@ -22,10 +25,19 @@ export default function Home() {
 					className="w-full resize-none appearance-none overflow-hidden bg-transparent text-2xl font-bold focus:outline-none"
 				/>
 			</div>
-			<div className="flex flex-col ">
+			<div className="flex flex-col">
 				<p className="mb-5 text-sm font-semibold text-[#7c7d7c]">Your notes</p>
-				<div className="">
-					{imageUrl && <NoteCard imageUrl={imageUrl} href="" title="" />}
+				<div className="grid grid-cols-2 gap-y-14">
+					{something.map(
+						(value) =>
+							imageUrl && (
+								<NoteCard
+									imageUrl={imageUrl}
+									id="some random gay"
+									title="some title"
+								/>
+							),
+					)}
 				</div>
 			</div>
 		</div>

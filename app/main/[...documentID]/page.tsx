@@ -1,8 +1,7 @@
 "use client";
 import Image from "next/image";
 import Cover from "@/components/Cover";
-import { Editor } from "@/components/index";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { ClientUploadedFileData } from "uploadthing/types";
 import { setCookie, getCookie } from "@/utils/utils";
@@ -10,12 +9,17 @@ import { Button } from "@/components/MenuButton";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import dynamic from "next/dynamic";
 
 export default function Home() {
 	const [imageUrl, setImageUrl] = useState<string>();
 	const [emoji, setEmoji] = useState<string>("s");
-
 	const update = useMutation(api.documents.update);
+	
+	const Editor = useMemo(
+		() => dynamic(() => import("@/components/editor"), { ssr: false }),
+		[],
+	);
 
 	useEffect(() => {
 		const cookie = getCookie("imageUrl");
