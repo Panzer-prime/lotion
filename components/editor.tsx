@@ -12,7 +12,7 @@ import { Block, PartialBlock } from "@blocknote/core";
 import { uploadFiles } from "@/utils/uploadthing";
 
 interface EditorProps {
-	initialContent: string;
+	initialContent?: string;
 	onChange: ({
 		content,
 		title,

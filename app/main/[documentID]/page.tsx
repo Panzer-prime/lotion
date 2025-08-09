@@ -6,33 +6,37 @@ import TextareaAutosize from "react-textarea-autosize";
 import { ClientUploadedFileData } from "uploadthing/types";
 import { setCookie, getCookie } from "@/utils/utils";
 import { Button } from "@/components/MenuButton";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import dynamic from "next/dynamic";
+import { useParams } from "next/navigation";
 
 export default function Home() {
+	const params = useParams<{ documentID: Id<"documents"> }>();
+	const update = useMutation(api.documents.update);
+	const document = useQuery(api.documents.getById, {
+		documentID: params.documentID,
+	});
+
+	console.log(params.documentID);
 	const [imageUrl, setImageUrl] = useState<string>();
 	const [emoji, setEmoji] = useState<string>("s");
-	const update = useMutation(api.documents.update);
-	
+	const [title, setTitle] = useState<string>(document?.title || "Untitled");
+
 	const Editor = useMemo(
 		() => dynamic(() => import("@/components/editor"), { ssr: false }),
 		[],
 	);
 
-	useEffect(() => {
-		const cookie = getCookie("imageUrl");
-		if (cookie) {
-			setImageUrl(cookie);
-		}
-	}, []);
-
 	const enableCover = async () => {
-		const response = await fetch("https://picsum.photos/800/600");
-
-		setImageUrl(response.url);
-		setCookie("imageUrl", response.url, 12);
+		try {
+			const response = await fetch("https://picsum.photos/800/600");
+			if (!response.ok) throw new Error("Failed to fetch image");
+			setImageUrl(response.url);
+		} catch (e) {
+			console.error(e);
+		}
 	};
 
 	const uploadImage = (
@@ -41,17 +45,17 @@ export default function Home() {
 		}>[],
 	) => {
 		const [res] = files;
-
 		setImageUrl(res.ufsUrl);
-		setCookie("imageUrl", res.ufsUrl, 12);
 	};
+	console.log(imageUrl, document?.coverImage);
+	useEffect(() => {
+		const handler = setTimeout(() => {
+			update({ id: params.documentID, title, coverImage: imageUrl });
+		}, 500);
+		return () => clearTimeout(handler);
+	}, [title, imageUrl]);
 
-	const onTitleChange = (value: string) => {
-		update({
-			id: "jh7ccnnmxxt2e30p73efxbaa917n0kjx" as Id<"documents">,
-			title: value,
-		});
-	};
+	// console.log(imageUrl)
 	const onChange = ({
 		content,
 		title,
@@ -60,18 +64,28 @@ export default function Home() {
 		title: string | undefined;
 	}) => {
 		update({
-			id: "jh7ccnnmxxt2e30p73efxbaa917n0kjx" as Id<"documents">,
+			id: params.documentID,
 			content: content,
 			title: title,
+			coverImage: imageUrl,
 		});
 	};
+	if (document == undefined) {
+		return <div></div>;
+	}
+	if (document == null) {
+		return <div></div>;
+	}
 	return (
 		<div className="">
-			{imageUrl && <Cover href={imageUrl} uploadImage={uploadImage} />}
+			{document.coverImage && (
+				<Cover href={document.coverImage} uploadImage={uploadImage} />
+			)}
+
 			<div className="relative mx-auto flex flex-col lg:max-w-4xl">
 				<div className="group mt-3 mb-11 ml-13">
 					<div className="mb-2 flex flex-row gap-3.5">
-						{!imageUrl && (
+						{!document.coverImage && (
 							<Button
 								className="hidden rounded-md px-2 py-1 text-neutral-400 transition-all group-hover:flex hover:bg-[#262626]"
 								onClick={enableCover}
@@ -91,15 +105,16 @@ export default function Home() {
 					</div>
 
 					<TextareaAutosize
+						value={title}
 						placeholder="Untitled"
 						className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
-						onChange={(event) =>
-							onChange({ content: undefined, title: event.currentTarget.value })
-						}
+						onChange={(event) => {
+							setTitle(event.currentTarget.value);
+						}}
 					/>
 				</div>
 
-				<Editor onChange={onChange} initialContent="" />
+				<Editor onChange={onChange} initialContent={document.content} />
 			</div>
 		</div>
 	);
