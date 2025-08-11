@@ -41,7 +41,7 @@ export function NoteCard({
 			</CardContent>
 			<CardFooter>
 				<Button asChild className="font-semibold" variant="secondary">
-					<Link href={`/main/${id}`}>Open Note</Link>
+					<Link href={`/${id}`}>Open Note</Link>
 				</Button>
 			</CardFooter>
 		</Card>

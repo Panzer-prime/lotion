@@ -17,7 +17,7 @@ export default function Home() {
 	const onCreate = () => {
 		const promise = create({ title: "thats some title" })
 			.then((id) => {
-				router.push(`/main/${id}`);
+				router.push(`/${id}`);
 			})
 			.catch((err) => {
 				console.log(err);

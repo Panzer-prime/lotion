@@ -1,25 +1,25 @@
 "use client";
-import Image from "next/image";
-import Cover from "@/components/Cover";
 import { useEffect, useMemo, useState } from "react";
+
+import Cover from "@/components/Cover";
 import TextareaAutosize from "react-textarea-autosize";
 import { ClientUploadedFileData } from "uploadthing/types";
-import { setCookie, getCookie } from "@/utils/utils";
 import { Button } from "@/components/MenuButton";
+
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 
 export default function Home() {
-	const params = useParams<{ documentID: Id<"documents"> }>();
+	const params = useParams<{ documentID: string }>();
 	const update = useMutation(api.documents.update);
 	const document = useQuery(api.documents.getById, {
 		documentID: params.documentID,
 	});
 
-	console.log(params.documentID);
 	const [imageUrl, setImageUrl] = useState<string>();
 	const [emoji, setEmoji] = useState<string>("s");
 	const [title, setTitle] = useState<string>(document?.title || "Untitled");
@@ -47,7 +47,6 @@ export default function Home() {
 		const [res] = files;
 		setImageUrl(res.ufsUrl);
 	};
-	console.log(imageUrl, document?.coverImage);
 	useEffect(() => {
 		const handler = setTimeout(() => {
 			update({ id: params.documentID, title, coverImage: imageUrl });
@@ -55,7 +54,6 @@ export default function Home() {
 		return () => clearTimeout(handler);
 	}, [title, imageUrl]);
 
-	// console.log(imageUrl)
 	const onChange = ({
 		content,
 		title,
@@ -77,7 +75,7 @@ export default function Home() {
 		return <div></div>;
 	}
 	return (
-		<div className="">
+		<div className="w-full">
 			{document.coverImage && (
 				<Cover href={document.coverImage} uploadImage={uploadImage} />
 			)}
