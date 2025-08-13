@@ -6,6 +6,7 @@ import {
 	SidebarMenuAction,
 	SidebarMenuButton,
 	SidebarMenuItem,
+	SidebarMenuSkeleton,
 	SidebarMenuSub,
 } from "./ui/sidebar";
 
@@ -14,7 +15,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useState } from "react";
 
 import { Collapsible } from "@radix-ui/react-collapsible";
-import { Ellipsis } from "lucide-react";
+import { Ellipsis, HomeIcon } from "lucide-react";
 
 export const MenuItems = ({
 	parentId,
@@ -47,7 +48,15 @@ export const MenuItems = ({
 								onClick={() => onExpand(item._id)}
 								className="flex flex-row justify-between font-medium"
 							>
-								<a href={`/documents/${item._id}`}>{item.title}</a>
+								<a
+									href={`/documents/${item._id}`}
+									className="flex max-w-3/5 flex-row items-center gap-2 truncate"
+								>
+									<span className="">
+										<HomeIcon size={16} />
+									</span>
+									{item.title}
+								</a>
 							</SidebarMenuButton>
 
 							<SidebarMenuAction

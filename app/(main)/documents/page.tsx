@@ -17,7 +17,7 @@ export default function Home() {
 	const onCreate = () => {
 		const promise = create({ title: "thats some title" })
 			.then((id) => {
-				router.push(`/${id}`);
+				router.push(`/documents/${id}`);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -40,7 +40,7 @@ export default function Home() {
 						Your notes
 					</p>
 					<div>
-						<Button variant="secondary" onClick={onCreate}>
+						<Button onClick={onCreate}>
 							<Plus size={64} />
 						</Button>
 					</div>
@@ -60,4 +60,3 @@ export default function Home() {
 		</div>
 	);
 }
-
