@@ -27,36 +27,10 @@ export default function Home() {
 	console.log(Documents);
 
 	return (
-		<div className="relative mx-auto flex flex-col pt-12 lg:max-w-4xl">
-			<div className="mb-13">
-				<TextareaAutosize
-					placeholder="Search Notes"
-					className="w-full resize-none appearance-none overflow-hidden bg-transparent text-2xl font-bold focus:outline-none"
-				/>
-			</div>
-			<div className="flex flex-col">
-				<div className="flex flex-row justify-between pr-13">
-					<p className="mb-5 text-sm font-semibold text-[#7c7d7c]">
-						Your notes
-					</p>
-					<div>
-						<Button variant="secondary" onClick={onCreate}>
-							<Plus size={64} />
-						</Button>
-					</div>
-				</div>
-				<div className="grid grid-cols-2 gap-y-14">
-					{Documents &&
-						Documents.map((item) => (
-							<NoteCard
-								key={item._id}
-								imageUrl={item.coverImage}
-								id={item._id}
-								title={item.title}
-							/>
-						))}
-				</div>
-			</div>
+		<div className="w-screen items-center justify-center">
+			<Button variant="secondary">
+				<a href="/documents">Go to Documents</a>
+			</Button>
 		</div>
 	);
 }

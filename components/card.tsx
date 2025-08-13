@@ -40,8 +40,8 @@ export function NoteCard({
 				</CardTitle>
 			</CardContent>
 			<CardFooter>
-				<Button asChild className="font-semibold" variant="secondary">
-					<Link href={`/${id}`}>Open Note</Link>
+				<Button asChild className="font-semibold" >
+					<Link href={`/documents/${id}`}>Open Note</Link>
 				</Button>
 			</CardFooter>
 		</Card>

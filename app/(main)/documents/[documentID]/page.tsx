@@ -16,13 +16,13 @@ import { useParams } from "next/navigation";
 export default function Home() {
 	const params = useParams<{ documentID: string }>();
 	const update = useMutation(api.documents.update);
+	const [imageUrl, setImageUrl] = useState<string>();
+	const [emoji, setEmoji] = useState<string>("s");
+	const [title, setTitle] = useState<string | undefined>("");
+
 	const document = useQuery(api.documents.getById, {
 		documentID: params.documentID,
 	});
-
-	const [imageUrl, setImageUrl] = useState<string>();
-	const [emoji, setEmoji] = useState<string>("s");
-	const [title, setTitle] = useState<string>(document?.title || "Untitled");
 
 	const Editor = useMemo(
 		() => dynamic(() => import("@/components/editor"), { ssr: false }),
@@ -48,9 +48,13 @@ export default function Home() {
 		setImageUrl(res.ufsUrl);
 	};
 	useEffect(() => {
+		setTitle(document?.title);
+	}, [document?.title]);
+	useEffect(() => {
 		const handler = setTimeout(() => {
 			update({ id: params.documentID, title, coverImage: imageUrl });
 		}, 500);
+
 		return () => clearTimeout(handler);
 	}, [title, imageUrl]);
 

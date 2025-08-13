@@ -17,6 +17,19 @@ export const getById = query({
 	},
 });
 
+export const getSidebar = query({
+	args: { parentId: v.optional(v.id("documents")) },
+	handler: async (ctx, args) => {
+		const documents = await ctx.db
+			.query("documents")
+			.withIndex("by_user_parent", (q) =>
+				q.eq("user_id", userId).eq("parentDocumet", args.parentId),
+			)
+			.order("desc")
+			.collect();
+		return documents;
+	},
+});
 export const getUserDocuments = query({
 	handler: async (ctx) => {
 		const documents = await ctx.db

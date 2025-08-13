@@ -19,36 +19,9 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Button } from "./ui/button";
+import { MenuItems } from "./Menuitems";
 
 // Menu items.
-const items = [
-	{
-		title: "favorite",
-		url: "#",
-		icon: Home,
-	},
-	{
-		title: "favoritev",
-		url: "#",
-		icon: Inbox,
-	},
-	{
-		title: "favorite1",
-		url: "#",
-		icon: Calendar,
-	},
-	{
-		title: "favorite2",
-		url: "#",
-		icon: Search,
-	},
-	{
-		title: "favorite12",
-		url: "#",
-		icon: Settings,
-	},
-];
 
 export function AppSidebar() {
 	return (
@@ -63,49 +36,21 @@ export function AppSidebar() {
 								</SidebarMenuButton>
 							</SidebarMenuItem>
 							<SidebarMenuItem>
-								<SidebarMenuButton >
-									<Home /> Home
+								<SidebarMenuButton asChild>
+									<a href="/documents">
+										<Home /> Home
+									</a>
 								</SidebarMenuButton>
 							</SidebarMenuItem>
 						</SidebarMenu>
 					</SidebarGroupContent>
 				</SidebarGroup>
 			</SidebarHeader>
+
 			<SidebarContent>
 				<SidebarGroup>
 					<SidebarGroupLabel>Favorites</SidebarGroupLabel>
-					<SidebarGroupContent>
-						<SidebarMenu>
-							{items.map((item, index) => (
-								<SidebarMenuItem key={index}>
-									<SidebarMenuButton asChild>
-										<a href={item.url}>
-											<item.icon />
-											<span>{item.title}</span>
-										</a>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-							))}
-						</SidebarMenu>
-					</SidebarGroupContent>
-				</SidebarGroup>
-
-				<SidebarGroup>
-					<SidebarGroupLabel>Private</SidebarGroupLabel>
-					<SidebarGroupContent>
-						<SidebarMenu>
-							{items.map((item,index) => (
-								<SidebarMenuItem key={index}>
-									<SidebarMenuButton asChild>
-										<a href={item.url}>
-											<item.icon />
-											<span>{item.title}</span>
-										</a>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-							))}
-						</SidebarMenu>
-					</SidebarGroupContent>
+					<MenuItems></MenuItems>
 				</SidebarGroup>
 			</SidebarContent>
 
