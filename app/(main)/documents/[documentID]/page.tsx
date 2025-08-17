@@ -50,6 +50,7 @@ export default function Home() {
 	useEffect(() => {
 		setTitle(document?.title);
 	}, [document?.title]);
+
 	useEffect(() => {
 		const handler = setTimeout(() => {
 			update({ id: params.documentID, title, coverImage: imageUrl });

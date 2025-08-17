@@ -28,10 +28,14 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-
+import { SignOutButton } from "@clerk/nextjs";
+import { useConvexAuth } from "convex/react";
+import { useAuth } from "@clerk/clerk-react";
+import { useUser } from "@clerk/nextjs";
 // Menu items.
 
 export function AppSidebar() {
+	const { user } = useUser();
 	return (
 		<Sidebar className="bg-black">
 			<SidebarHeader>
@@ -50,7 +54,7 @@ export function AppSidebar() {
 				</SidebarGroup>
 			</SidebarHeader>
 
-			<SidebarContent>
+			<SidebarContent className="overflow-visible">
 				<SidebarGroup>
 					<SidebarGroupLabel>Your Notes</SidebarGroupLabel>
 					<MenuItems />
@@ -63,7 +67,9 @@ export function AppSidebar() {
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
 								<SidebarMenuButton>
-									<User2 /> Username
+									<p className="flex flex-row items-center gap-2">
+										<User2 /> <span>{user?.fullName}</span>
+									</p>
 									<ChevronUp className="ml-auto" />
 								</SidebarMenuButton>
 							</DropdownMenuTrigger>
@@ -71,14 +77,11 @@ export function AppSidebar() {
 								side="top"
 								className="flex w-56 flex-col gap-2 rounded-md bg-stone-800 outline-none"
 							>
-								<DropdownMenuItem className="rounded-sm p-2 outline-none hover:bg-stone-900 hover:outline-none">
-									<span>Account</span>
-								</DropdownMenuItem>
-								<DropdownMenuItem className="rounded-sm p-2 outline-none hover:bg-stone-900 hover:outline-none">
-									<span>Billing</span>
-								</DropdownMenuItem>
-								<DropdownMenuItem className="rounded-sm p-2 outline-none hover:bg-stone-900 hover:outline-none">
-									<span>Sign out</span>
+								<DropdownMenuItem
+									className="rounded-sm p-2 outline-none hover:bg-stone-900 hover:outline-none"
+									asChild
+								>
+									<SignOutButton redirectUrl="/">Log out</SignOutButton>
 								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>

@@ -7,10 +7,11 @@ import { Plus } from "lucide-react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
+import { useSession } from "@clerk/nextjs";
 
 export default function Home() {
 	const router = useRouter();
-
+	const { session } = useSession();
 	const create = useMutation(api.documents.create);
 	const Documents = useQuery(api.documents.getUserDocuments);
 
@@ -24,7 +25,7 @@ export default function Home() {
 			});
 	};
 
-	console.log(Documents);
+	console.log(session);
 
 	return (
 		<div className="relative mx-auto flex flex-col pt-12 lg:max-w-4xl">
