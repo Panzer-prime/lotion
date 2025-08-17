@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 	const { isAuthenticated, isLoading } = useConvexAuth();
 	if (isLoading) {
 		return (
-			<div className="flex w-screen h-screen items-center justify-center">
+			<div className="flex h-screen w-screen items-center justify-center">
 				<Spinner size="md" />
 			</div>
 		);
@@ -23,6 +23,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 				<AppSidebar />
 
 				<div className="w-full">
+					<div className="w-full bg-stone-900">1</div>
 					<SidebarTrigger />
 					{children}
 				</div>

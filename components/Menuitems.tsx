@@ -6,7 +6,6 @@ import {
 	SidebarMenuAction,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	SidebarMenuSkeleton,
 	SidebarMenuSub,
 } from "./ui/sidebar";
 
@@ -15,13 +14,14 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useState } from "react";
 
 import { Collapsible } from "@radix-ui/react-collapsible";
-import { Ellipsis, HomeIcon, Plus, Trash2 } from "lucide-react";
+import { Ellipsis, Plus, StickyNote, Trash2 } from "lucide-react";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
+import { Stick } from "next/font/google";
 
 export const MenuItems = ({
 	parentId,
@@ -66,10 +66,10 @@ export const MenuItems = ({
 							>
 								<a
 									href={`/documents/${item._id}`}
-									className="line-clamp-1 flex max-w-[86%] flex-row items-center gap-2 truncate"
+									className="line-clamp-1 flex max-w-[86%] flex-row items-center gap-2 truncate font-semibold"
 								>
-									<span className="">
-										<HomeIcon size={16} />
+									<span className="text-xl">
+										{item.icon ? item.icon : <StickyNote size={16} />}
 									</span>
 									{item.title}
 								</a>
@@ -90,15 +90,17 @@ export const MenuItems = ({
 									align="start"
 									className="flex w-48 flex-col gap-2 rounded-md bg-stone-800"
 								>
-									<DropdownMenuItem className="rounded-sm p-2 outline-none hover:bg-stone-900 hover:outline-none">
-										<button
-											onClick={() => createSubNote({ id: item._id })}
-											className="flex flex-row items-center gap-3"
-										>
-											<Plus />
-											<span>Create subNote</span>
-										</button>
-									</DropdownMenuItem>
+									{level < 1 && (
+										<DropdownMenuItem className="rounded-sm p-2 outline-none hover:bg-stone-900 hover:outline-none">
+											<button
+												onClick={() => createSubNote({ id: item._id })}
+												className="flex flex-row items-center gap-3"
+											>
+												<Plus />
+												<span>Create subNote</span>
+											</button>
+										</DropdownMenuItem>
+									)}
 									<DropdownMenuItem className="rounded-sm p-2 outline-none hover:bg-stone-900 hover:outline-none">
 										<button
 											onClick={() => deleteNote({ id: item._id })}
@@ -111,9 +113,7 @@ export const MenuItems = ({
 								</DropdownMenuContent>
 							</DropdownMenu>
 
-							{/* <div className="absolute -right-31 w-full bg-red-500">1</div> */}
-
-							{expand[item._id] && (
+							{level < 2 && expand[item._id] && (
 								<SidebarMenuSub>
 									<MenuItems parentId={item._id} level={level + 1} />
 								</SidebarMenuSub>

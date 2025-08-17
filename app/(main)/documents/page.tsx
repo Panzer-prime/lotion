@@ -8,11 +8,13 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { useSession } from "@clerk/nextjs";
+import { Id } from "@/convex/_generated/dataModel";
 
 export default function Home() {
 	const router = useRouter();
 	const { session } = useSession();
 	const create = useMutation(api.documents.create);
+	const deleteDocumet = useMutation(api.documents.deleteDocumet);
 	const Documents = useQuery(api.documents.getUserDocuments);
 
 	const onCreate = () => {
@@ -25,8 +27,10 @@ export default function Home() {
 			});
 	};
 
-	console.log(session);
-
+	const deleteNote = async ({ id }: { id: Id<"documents"> }) => {
+		console.log("is something wrong ");
+		await deleteDocumet({ id: id });
+	};
 	return (
 		<div className="relative mx-auto flex flex-col pt-12 lg:max-w-4xl">
 			<div className="mb-13">
@@ -36,15 +40,14 @@ export default function Home() {
 				/>
 			</div>
 			<div className="flex flex-col">
-				<div className="flex flex-row justify-between pr-13">
+				<div className="flex flex-row items-center justify-between pr-13">
 					<p className="mb-5 text-sm font-semibold text-[#7c7d7c]">
 						Your notes
 					</p>
-					<div>
-						<Button onClick={onCreate}>
-							<Plus size={64} />
-						</Button>
-					</div>
+
+					<Button onClick={onCreate}>
+						<Plus size={64} />
+					</Button>
 				</div>
 				<div className="grid grid-cols-2 gap-y-14">
 					{Documents &&
@@ -54,6 +57,8 @@ export default function Home() {
 								imageUrl={item.coverImage}
 								id={item._id}
 								title={item.title}
+								deleteDocument={() => deleteNote({ id: item._id })}
+								icon={item.icon}
 							/>
 						))}
 				</div>

@@ -150,3 +150,21 @@ export const deleteTask = mutation({
 		await ctx.db.delete(args.id);
 	},
 });
+
+export const search = query({
+	args: { title: v.string() },
+	handler: async (ctx, args) => {
+		const indentity = await ctx.auth.getUserIdentity();
+		if (!indentity) throw new Error("Not authenticated");
+
+		const userId = indentity.subject;
+
+		const documents = await ctx.db
+			.query("documents")
+			.withSearchIndex("search_title", (q) =>
+				q.search("title", args.title).eq("user_id", userId),
+			);
+
+		return documents
+	},
+});

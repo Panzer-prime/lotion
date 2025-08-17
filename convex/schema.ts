@@ -10,6 +10,10 @@ export default defineSchema({
 		title: v.string(),
 		parentDocumet: v.optional(v.id("documents")),
 	})
+		.searchIndex("search_title", {
+			searchField: "title",
+			filterFields: ["user_id"],
+		})
 		.index("by_user_id", ["user_id"])
 		.index("by_user_parent", ["user_id", "parentDocumet"]),
 });

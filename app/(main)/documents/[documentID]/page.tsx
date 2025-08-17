@@ -12,12 +12,14 @@ import { Id } from "@/convex/_generated/dataModel";
 
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
+import { IconPicker } from "@/components/iconpicker";
+import { Emoji } from "emoji-picker-react";
 
 export default function Home() {
 	const params = useParams<{ documentID: string }>();
 	const update = useMutation(api.documents.update);
 	const [imageUrl, setImageUrl] = useState<string>();
-	const [emoji, setEmoji] = useState<string>("s");
+	const [emoji, setEmoji] = useState<string>("");
 	const [title, setTitle] = useState<string | undefined>("");
 
 	const document = useQuery(api.documents.getById, {
@@ -59,6 +61,13 @@ export default function Home() {
 		return () => clearTimeout(handler);
 	}, [title, imageUrl]);
 
+	const updateEmoji = (value: string) => {
+		update({
+			id: params.documentID,
+			icon: value,
+		});
+	};
+
 	const onChange = ({
 		content,
 		title,
@@ -97,14 +106,15 @@ export default function Home() {
 							</Button>
 						)}
 
-						{!emoji && (
-							<Button
-								className="hidden rounded-md px-2 py-1 text-neutral-400 transition-all group-hover:flex hover:bg-[#262626]"
-								onClick={() => {}}
-							>
-								Pick icon
-							</Button>
-						)}
+						<IconPicker onChange={updateEmoji}>
+							<p className="absolute -top-16 -left-16 text-8xl transition-all delay-300 ease-in hover:opacity-50">
+								{document.icon ? (
+									document.icon
+								) : (
+									<span className="text-[16px]">pick an emohi</span>
+								)}
+							</p>
+						</IconPicker>
 					</div>
 
 					<TextareaAutosize
