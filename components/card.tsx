@@ -46,7 +46,7 @@ export function NoteCard({
 			</CardContent>
 			<CardFooter className="flex flex-row gap-2">
 				<Button asChild className="font-semibold">
-					<Link href={`/documents/${id}`}>Open Note</Link>
+					<Link href={`/documents/${id}`} prefetch={false}>Open Note</Link>
 				</Button>
 				<Button onClick={deleteDocument}> delete</Button>
 			</CardFooter>

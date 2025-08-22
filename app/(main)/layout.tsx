@@ -7,6 +7,7 @@ import { Spinner } from "@/components/Spinner";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	const { isAuthenticated, isLoading } = useConvexAuth();
+
 	if (isLoading) {
 		return (
 			<div className="flex h-screen w-screen items-center justify-center">

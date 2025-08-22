@@ -8,18 +8,15 @@ import { Button } from "@/components/MenuButton";
 
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
 
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import { IconPicker } from "@/components/iconpicker";
-import { Emoji } from "emoji-picker-react";
 
 export default function Home() {
 	const params = useParams<{ documentID: string }>();
 	const update = useMutation(api.documents.update);
 	const [imageUrl, setImageUrl] = useState<string>();
-	const [emoji, setEmoji] = useState<string>("");
 	const [title, setTitle] = useState<string | undefined>("");
 
 	const document = useQuery(api.documents.getById, {
