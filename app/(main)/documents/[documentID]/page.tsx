@@ -5,6 +5,7 @@ import Cover from "@/components/Cover";
 import TextareaAutosize from "react-textarea-autosize";
 import { ClientUploadedFileData } from "uploadthing/types";
 import { Button } from "@/components/MenuButton";
+import { Button as Button2 } from "@/components/ui/button";
 
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -12,6 +13,7 @@ import { api } from "@/convex/_generated/api";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import { IconPicker } from "@/components/iconpicker";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
 	const params = useParams<{ documentID: string }>();
@@ -96,19 +98,26 @@ export default function Home() {
 					<div className="mb-2 flex flex-row gap-3.5">
 						{!document.coverImage && (
 							<Button
-								className="hidden rounded-md px-2 py-1 text-neutral-400 transition-all group-hover:flex hover:bg-[#262626]"
+								className="hidden rounded-md px-2 py-1 text-neutral-400 transition-all group-hover:flex hover:bg-[#262626] hover:text-white"
 								onClick={enableCover}
 							>
 								Add Cover
 							</Button>
 						)}
 
-						<IconPicker onChange={updateEmoji}>
-							<p className="absolute -top-16 -left-16 text-8xl transition-all delay-300 ease-in hover:opacity-50">
+						<IconPicker onChange={updateEmoji} asChild>
+							<p
+								className={cn(
+									`text-8xl text-neutral-400`,
+									document.icon && "absolute -top-16 -left-16",
+								)}
+							>
 								{document.icon ? (
 									document.icon
 								) : (
-									<span className="text-[16px]">pick an emohi</span>
+									<Button2 variant="ghost" className="text-[16px]">
+										pick an emohi
+									</Button2>
 								)}
 							</p>
 						</IconPicker>

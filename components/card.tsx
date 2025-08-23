@@ -1,41 +1,31 @@
 import Image from "next/image";
-import Link from "next/link";
-import {
-	Card,
-	CardContent,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import { Button } from "./ui/button";
-import { Divide, StickyNote } from "lucide-react";
-import { Stick } from "next/font/google";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { StickyNote } from "lucide-react";
 
 export function NoteCard({
 	imageUrl,
 	title,
-	id,
+	toNote,
 	icon,
-	deleteDocument,
 }: {
 	imageUrl?: string;
-	deleteDocument: () => void;
+	toNote: () => void;
 	title: string;
 	id: string;
 	icon: string | undefined;
 }) {
 	return (
-		<Card className="relative h-32 w-32 overflow-hidden bg-[#252525] pt-0 outline-0">
+		<Card className="relative h-32 w-32 overflow-hidden bg-[#252525] pt-0 outline-0" onClick={toNote}>
 			<CardHeader className="absolute top-0 left-0 h-2/5 w-full p-0">
 				{imageUrl ? (
 					<Image
 						src={imageUrl}
 						alt="card cover"
 						fill
-						className="rounded-md object-cover"
+						className="rounded-t-md object-cover"
 					/>
 				) : (
-					<div className="h-full w-full rounded-t-md"></div>
+					<div className="h-full w-full"></div>
 				)}
 			</CardHeader>
 			<CardContent className="absolute bottom-0 left-0 z-50 flex h-3/5 w-full flex-col gap-3 bg-[#252525]">
@@ -51,36 +41,4 @@ export function NoteCard({
 			</CardContent>
 		</Card>
 	);
-}
-
-{
-	/* <Card className="w-full max-w-sm border-0 bg-[#252525] ">
-			<CardHeader className="w-full rounded-xl p-0 pt-0.5">
-				{imageUrl ? (
-					<Image
-						src={imageUrl}
-						alt="cover"
-						width={400}
-						height={200}
-						className="h-40 w-full rounded-t-md object-cover"
-					/>
-				) : (
-					<div className="h-40 w-full rounded-t-md"></div>
-				)}
-			</CardHeader>
-			<CardContent className="relative pt-4">
-				<CardTitle className="absolute -top-10 line-clamp-1 flex max-w-3/4 flex-row items-center gap-2 truncate text-xl font-semibold">
-					<span className="text-4xl">{icon ? icon : <StickyNote />}</span>
-					{title}
-				</CardTitle>
-			</CardContent>
-			<CardFooter className="flex flex-row gap-2">
-				<Button asChild className="font-semibold">
-					<Link href={`/documents/${id}`} prefetch={false}>
-						Open Note
-					</Link>
-				</Button>
-				<Button onClick={deleteDocument}> delete</Button>
-			</CardFooter>
-		</Card> */
 }

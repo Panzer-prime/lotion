@@ -9,7 +9,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
-		"@ai-sdk/google": "^0.0.55",
+		"@ai-sdk/google": "^1.0.8",
 		"@blocknote/core": "^0.35.0",
 		"@blocknote/mantine": "^0.35.0",
 		"@blocknote/react": "^0.35.0",
@@ -23,7 +23,7 @@
 		"@radix-ui/react-slot": "^1.2.3",
 		"@radix-ui/react-tooltip": "^1.2.7",
 		"@uploadthing/react": "^7.3.2",
-		"ai": "^5.0.22",
+		"ai": "^4.0.22",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"convex": "^1.25.4",
@@ -33,7 +33,11 @@
 		"next": "15.4.5",
 		"react": "19.1.0",
 		"react-dom": "19.1.0",
+		"react-markdown": "^10.1.0",
 		"react-textarea-autosize": "^8.5.9",
+		"rehype-highlight": "^7.0.2",
+		"remark-breaks": "^4.0.0",
+		"remark-gfm": "^4.0.1",
 		"tailwind-merge": "^3.3.1",
 		"uploadthing": "^7.7.3"
 	},

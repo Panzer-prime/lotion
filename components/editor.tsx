@@ -31,7 +31,7 @@ import {
 	getAISlashMenuItems,
 } from "@blocknote/xl-ai";
 import "@blocknote/xl-ai/style.css";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { model } from "@/lib/googleAI";
 
 interface EditorProps {
 	initialContent?: string;
@@ -44,15 +44,6 @@ interface EditorProps {
 	}) => void;
 }
 export default function MyEditor({ initialContent, onChange }: EditorProps) {
-	const [blocks, setBlocks] = useState<Block[]>([]);
-	console.log(
-		process.env.NEXT_PUBLIC_GOOGLE_GENERATIVE_AI_API_KEY as string,
-		"write somethign for fuck sake",
-	);
-	const model = createGoogleGenerativeAI({
-		apiKey: process.env.NEXT_PUBLIC_GOOGLE_GENERATIVE_AI_API_KEY as string,
-	})("gemini-2.5-flash");
-
 	// Creates a new editor instance.
 	const editor = useCreateBlockNote({
 		initialContent: initialContent
