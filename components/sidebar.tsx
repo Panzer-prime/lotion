@@ -37,11 +37,32 @@ import { useUser } from "@clerk/nextjs";
 export function AppSidebar() {
 	const { user } = useUser();
 	return (
-		<Sidebar className="bg-black">
+		<Sidebar className="text-[#8A8A8A]">
 			<SidebarHeader>
 				<SidebarGroup>
 					<SidebarGroupContent>
 						<SidebarMenu>
+							<SidebarMenuItem className="transition-all delay-100 ease-in-out">
+								<DropdownMenu>
+									<DropdownMenuTrigger asChild className="">
+										<SidebarMenuButton>
+											<p className="flex flex-row items-center gap-2">
+												<User2 /> <span>{user?.fullName}</span>
+											</p>
+											<ChevronUp className="ml-auto" />
+										</SidebarMenuButton>
+									</DropdownMenuTrigger>
+									<DropdownMenuContent
+										side="bottom"
+										className="z-50 ml-11 w-64 bg-stone-800"
+									>
+										<DropdownMenuItem className="rounded-sm p-2">
+											<SignOutButton redirectUrl="/">Log out</SignOutButton>
+										</DropdownMenuItem>
+									</DropdownMenuContent>
+								</DropdownMenu>
+							</SidebarMenuItem>
+
 							<SidebarMenuItem>
 								<SidebarMenuButton asChild>
 									<a href="/documents">
@@ -62,31 +83,7 @@ export function AppSidebar() {
 			</SidebarContent>
 
 			<SidebarFooter className="">
-				<SidebarMenu>
-					<SidebarMenuItem>
-						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<SidebarMenuButton>
-									<p className="flex flex-row items-center gap-2">
-										<User2 /> <span>{user?.fullName}</span>
-									</p>
-									<ChevronUp className="ml-auto" />
-								</SidebarMenuButton>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent
-								side="top"
-								className="flex w-56 flex-col gap-2 rounded-md bg-stone-800 outline-none"
-							>
-								<DropdownMenuItem
-									className="rounded-sm p-2 outline-none hover:bg-stone-900 hover:outline-none"
-									asChild
-								>
-									<SignOutButton redirectUrl="/">Log out</SignOutButton>
-								</DropdownMenuItem>
-							</DropdownMenuContent>
-						</DropdownMenu>
-					</SidebarMenuItem>
-				</SidebarMenu>
+				<SidebarMenu></SidebarMenu>
 			</SidebarFooter>
 		</Sidebar>
 	);

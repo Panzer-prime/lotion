@@ -20,11 +20,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 	}
 	return (
 		<main>
-			<SidebarProvider className="dark">
+			<SidebarProvider className="dark text-defaultText">
 				<AppSidebar />
 
 				<div className="w-full">
-					<div className="w-full bg-stone-900">1</div>
+					<div className="w-full bg-stone-900"></div>
 					<SidebarTrigger />
 					{children}
 				</div>

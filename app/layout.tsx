@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import "./globals.css";
 import { ConvexClientProvider } from "@/providers/convexProvider";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -9,6 +9,10 @@ const geistSans = Geist({
 	subsets: ["latin"],
 });
 
+const getRoboto = Roboto({
+	subsets: ["latin"],
+	weight: ["700", "400", "500"],
+});
 const geistMono = Geist_Mono({
 	variable: "--font-geist-mono",
 	subsets: ["latin"],
@@ -26,9 +30,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-			>
+			<body className={`${getRoboto.className} text-defaultText antialiased`}>
 				<ClerkProvider>
 					<ConvexClientProvider>{children}</ConvexClientProvider>
 				</ClerkProvider>

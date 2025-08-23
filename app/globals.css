@@ -1,13 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 @import "uploadthing/tw/v4";
 @import "tw-animate-css";
+
 /*---break--- */
 @custom-variant dark (&:is(.dark *));
 @source "../node_modules/@uploadthing/react/dist"; /** <-- depends on your project structure */
 
 :root {
 	--background: #171717;
-	--sidebar: hsl(0 0% 98%);
+	--sidebar: #ffffff;
 	--sidebar-foreground: hsl(240 5.3% 26.1%);
 	--sidebar-primary: hsl(240 5.9% 10%);
 	--sidebar-primary-foreground: hsl(0 0% 98%);
@@ -18,6 +20,7 @@
 }
 
 @theme inline {
+	--color-defaultText: "#8A8A8A";
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--font-sans: var(--font-geist-sans);
@@ -101,7 +104,7 @@
 /*---break--- */
 
 .dark {
-	--background: oklch(0.145 0 0);
+	--background: #ffffff;
 	--foreground: oklch(0.985 0 0);
 	--card: oklch(0.205 0 0);
 	--card-foreground: oklch(0.985 0 0);
@@ -124,7 +127,7 @@
 	--chart-3: oklch(0.769 0.188 70.08);
 	--chart-4: oklch(0.627 0.265 303.9);
 	--chart-5: oklch(0.645 0.246 16.439);
-	--sidebar: oklch(0.205 0 0);
+	--sidebar: #202020; /* here is the sidebar backgrond color */
 	--sidebar-foreground: oklch(0.985 0 0);
 	--sidebar-primary: oklch(0.488 0.243 264.376);
 	--sidebar-primary-foreground: oklch(0.985 0 0);
@@ -147,7 +150,7 @@
 	}
 }
 body {
-	background: #000000;
+	background: #191919;
 	color: #ffffff;
 	font-family: Arial, Helvetica, sans-serif;
 }

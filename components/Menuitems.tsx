@@ -55,7 +55,7 @@ export const MenuItems = ({
 	};
 
 	return (
-		<SidebarGroupContent className="">
+		<SidebarGroupContent className="text-[#8A8A8A]">
 			<Collapsible defaultOpen className="group/collapsible">
 				<SidebarMenu>
 					{documents?.map((item) => (
@@ -69,7 +69,11 @@ export const MenuItems = ({
 									className="line-clamp-1 flex max-w-[86%] flex-row items-center gap-2 truncate font-semibold"
 								>
 									<span className="text-xl">
-										{item.icon ? item.icon : <StickyNote size={16} />}
+										{item.icon ? (
+											item.icon
+										) : (
+											<StickyNote size={16} className="text-white" />
+										)}
 									</span>
 									{item.title}
 								</a>
@@ -91,7 +95,7 @@ export const MenuItems = ({
 									className="flex w-48 flex-col gap-2 rounded-md bg-stone-800"
 								>
 									{level < 1 && (
-										<DropdownMenuItem className="rounded-sm p-2 outline-none hover:bg-stone-900 hover:outline-none">
+										<DropdownMenuItem className="rounded-sm p-2 transition-all delay-100 ease-in-out outline-none hover:bg-stone-900 hover:outline-none">
 											<button
 												onClick={() => createSubNote({ id: item._id })}
 												className="flex flex-row items-center gap-3"
@@ -101,7 +105,7 @@ export const MenuItems = ({
 											</button>
 										</DropdownMenuItem>
 									)}
-									<DropdownMenuItem className="rounded-sm p-2 outline-none hover:bg-stone-900 hover:outline-none">
+									<DropdownMenuItem className="rounded-sm p-2 transition-all delay-100 ease-in-out outline-none hover:bg-stone-900 hover:outline-none">
 										<button
 											onClick={() => deleteNote({ id: item._id })}
 											className="flex flex-row items-center gap-3"
