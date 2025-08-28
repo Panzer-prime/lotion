@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import icon from "@/public/image.png";
 import ilustration_left from "@/public/ilustration.png";

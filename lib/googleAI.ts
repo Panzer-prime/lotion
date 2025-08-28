@@ -1,9 +1,6 @@
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
 
-import { google } from "@ai-sdk/google";
-
-console.log(process.env.NEXT_PUBLIC_GOOGLE_GENERATIVE_AI_API_KEY as string);
 
 export const model = createGoogleGenerativeAI({
 	apiKey: process.env.NEXT_PUBLIC_GOOGLE_GENERATIVE_AI_API_KEY as string,
