@@ -1,23 +1,42 @@
 "use client";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar";
+import { useAuth } from "@clerk/nextjs";
 import { useConvexAuth } from "convex/react";
-import { redirect } from "next/navigation";
 import { Spinner } from "@/components/Spinner";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-	const { isAuthenticated, isLoading } = useConvexAuth();
+	const { isSignedIn, isLoaded: clerkLoaded } = useAuth();
+	const { isAuthenticated, isLoading: convexLoading } = useConvexAuth();
+	const router = useRouter();
 
-	if (isLoading) {
+	// Redirect to sign-in if not authenticated
+	useEffect(() => {
+		if (clerkLoaded && convexLoading === false && (!isSignedIn || !isAuthenticated)) {
+			router.push("/sign-in");
+		}
+	}, [isSignedIn, isAuthenticated, clerkLoaded, convexLoading, router]);
+
+	// Show loading while authentication is being determined
+	if (!clerkLoaded || convexLoading) {
 		return (
 			<div className="flex h-screen w-screen items-center justify-center">
 				<Spinner size="md" />
 			</div>
 		);
 	}
-	if (!isAuthenticated) {
-		return redirect("/sign-in");
+
+	// Don't render anything while redirecting
+	if (!isSignedIn || !isAuthenticated) {
+		return (
+			<div className="flex h-screen w-screen items-center justify-center">
+				<Spinner size="md" />
+			</div>
+		);
 	}
+
 	return (
 		<main>
 			<SidebarProvider className="dark text-defaultText">
