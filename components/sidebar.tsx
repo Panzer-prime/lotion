@@ -56,8 +56,8 @@ export function AppSidebar() {
 										side="bottom"
 										className="z-50 ml-11 w-64 bg-stone-800"
 									>
-										<DropdownMenuItem className="rounded-sm p-2">
-											<SignOutButton redirectUrl="/">Log out</SignOutButton>
+										<DropdownMenuItem className="rounded-sm p-2" asChild style={{"width" : "100%"}}>
+											<SignOutButton  redirectUrl="/">Log out</SignOutButton>
 										</DropdownMenuItem>
 									</DropdownMenuContent>
 								</DropdownMenu>
