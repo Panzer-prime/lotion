@@ -8,19 +8,18 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-	const { isSignedIn, isLoaded: clerkLoaded } = useAuth();
 	const { isAuthenticated, isLoading: convexLoading } = useConvexAuth();
 	const router = useRouter();
 
 	// Redirect to sign-in if not authenticated
 	useEffect(() => {
-		if (clerkLoaded && convexLoading === false && (!isSignedIn || !isAuthenticated)) {
+		if (convexLoading === false && !isAuthenticated) {
 			router.push("/sign-in");
 		}
-	}, [isSignedIn, isAuthenticated, clerkLoaded, convexLoading, router]);
+	}, [isAuthenticated, convexLoading, router]);
 
 	// Show loading while authentication is being determined
-	if (!clerkLoaded || convexLoading) {
+	if (convexLoading) {
 		return (
 			<div className="flex h-screen w-screen items-center justify-center">
 				<Spinner size="md" />
@@ -29,7 +28,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 	}
 
 	// Don't render anything while redirecting
-	if (!isSignedIn || !isAuthenticated) {
+	if (!isAuthenticated) {
 		return (
 			<div className="flex h-screen w-screen items-center justify-center">
 				<Spinner size="md" />
