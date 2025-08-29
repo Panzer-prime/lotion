@@ -5,6 +5,7 @@ import icon from "@/public/image.png";
 import ilustration_left from "@/public/ilustration.png";
 import ilustration_right from "@/public/ilustration-right.png";
 import { ArrowLeft } from "lucide-react";
+
 export default function Home() {
 	return (
 		<div className="flex flex-col items-center justify-center">

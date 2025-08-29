@@ -30,12 +30,16 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body className={`${getRoboto.className} text-defaultText antialiased`}>
-				<ClerkProvider>
-					<ConvexClientProvider>{children}</ConvexClientProvider>
-				</ClerkProvider>
-			</body>
-		</html>
+		<ClerkProvider>
+			<ConvexClientProvider>
+				<html lang="en">
+					<body
+						className={`${getRoboto.className} text-defaultText antialiased`}
+					>
+						{children}
+					</body>
+				</html>
+			</ConvexClientProvider>
+		</ClerkProvider>
 	);
 }

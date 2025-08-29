@@ -1,52 +1,47 @@
 "use client";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar";
-import { useAuth } from "@clerk/nextjs";
-import { useConvexAuth } from "convex/react";
-import { Spinner } from "@/components/Spinner";
+import { Authenticated, Unauthenticated } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useAuth } from "@clerk/nextjs";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-	const { isAuthenticated, isLoading: convexLoading } = useConvexAuth();
+function UnauthenticatedRedirect() {
 	const router = useRouter();
+	const { isSignedIn, isLoaded } = useAuth();
 
-	// Redirect to sign-in if not authenticated
 	useEffect(() => {
-		if (convexLoading === false && !isAuthenticated) {
-			router.push("/sign-in");
+		if (isLoaded && !isSignedIn) {
+			router.push('/sign-in');
 		}
-	}, [isAuthenticated, convexLoading, router]);
-
-	// Show loading while authentication is being determined
-	if (convexLoading) {
-		return (
-			<div className="flex h-screen w-screen items-center justify-center">
-				<Spinner size="md" />
-			</div>
-		);
-	}
-
-	// Don't render anything while redirecting
-	if (!isAuthenticated) {
-		return (
-			<div className="flex h-screen w-screen items-center justify-center">
-				<Spinner size="md" />
-			</div>
-		);
-	}
+	}, [isLoaded, isSignedIn, router]);
 
 	return (
-		<main>
-			<SidebarProvider className="dark text-defaultText">
-				<AppSidebar />
+		<div className="h-screen w-screen flex items-center justify-center">
+			<div className="text-lg">Redirecting to sign in...</div>
+		</div>
+	);
+}
 
-				<div className="w-full">
-					<div className="w-full bg-stone-900"></div>
-					<SidebarTrigger />
-					{children}
-				</div>
-			</SidebarProvider>
-		</main>
+export default function Layout({ children }: { children: React.ReactNode }) {
+	return (
+		<>
+			<Authenticated>
+				<main>
+					<SidebarProvider className="dark text-defaultText">
+						<AppSidebar />
+
+						<div className="w-full">
+							<div className="w-full bg-stone-900"></div>
+							<SidebarTrigger />
+							{children}
+						</div>
+					</SidebarProvider>
+				</main>
+			</Authenticated>
+			<Unauthenticated>
+				<UnauthenticatedRedirect />
+			</Unauthenticated>
+		</>
 	);
 }
